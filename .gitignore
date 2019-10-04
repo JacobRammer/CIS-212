@@ -4,9 +4,9 @@
 /vbox.*
 ArchLinux19F.vdi
 CS 212/CS 212.vbox-prev
-CS 212/Logs/VBox.log
-CS 212/Logs/VBox.log.1
+vbox.log
 .DS_Store
-CS 212/Logs/VBox.log.2
-CS 212/Logs/VBox.log.3
+CS 212/Logs/VBox.log.*
+*VBox.log.3
 CS 212/Snapshots/2019-10-02T22-11-19-621271000Z.sav
+*.o
