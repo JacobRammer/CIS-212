@@ -6,25 +6,18 @@ Project 2a
 #include <stdio.h>
 
 int main() {
-    int value, div_one, div_two;
+    int value, div;
     int max_val = 500;
     // int max_val = 2;
 
-    for (value = 15; value <= max_val; value++) 
+    for (value = 10; value <= max_val; value++) 
     {
-        for (div_one = 1; div_one <= value; div_one++)
+        for (div = 2; div < value; div++)
         {
-            for (div_two = 2; div_two <= div_one; div_two++)
-            {
-                if (div_one * div_two == value) 
+                if ((value % div == 0) && (value % 2 == 1))
                 {
-                    if (value % 2 == 1) // if it's odd
-                    {
-                        printf("%d is a composite number.\n", value);
-                        value ++;
-                    }
+                    printf("%d is a composite number.\n", value);
                 }
-            }
         }
     }
 }
