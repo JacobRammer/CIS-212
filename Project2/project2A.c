@@ -17,6 +17,7 @@ int main() {
                 if ((value % div == 0) && (value % 2 == 1))
                 {
                     printf("%d is a composite number.\n", value);
+                    break;
                 }
         }
     }
