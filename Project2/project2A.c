@@ -8,7 +8,6 @@ Project 2a
 int main() {
     int value, div;
     int max_val = 500;
-    // int max_val = 2;
 
     for (value = 10; value <= max_val; value++) 
     {
