@@ -17,23 +17,14 @@ double convertFraction(int previousIndex, char *decimalStr)
     previousIndex += 1;
     double decimalPlace = .1;
     double fromStr = 0.0;
-    // printf("string length of decimal is: %li\n", strlen(decimalStr));
-    // printf("previous index is: %c\n", decimalStr[previousIndex]);
-    // for (previousIndex; previousIndex < strlen(decimalStr); previousIndex++)
     while (decimalStr[previousIndex]  != '\0')
     {
         double convertDouble = (decimalStr[previousIndex] - '0') * decimalPlace;
-        // printf("convertDouble is: %f\n", convertDouble);
         fromStr = (convertDouble * 10) + fromStr;
         previousIndex += 1;
         decimalPlace *= .1;
     }
     fromStr *= .1;
-    // fromStr = convertDouble * .10;
-
-    // printf("fromStr is: %f\n", fromStr);
-
-
     return fromStr;
 }
 
@@ -51,30 +42,26 @@ double strToInt(char *str)
 
     for (i = 0; i < strlen(str); i++)
     {
-        if (str[i] == '-')  // check for negative sign
+        if (str[0] == '-')  // check for negative sign
         {
             negSign = 1;
-            break;
         }
 
-        if(str[i] > '9' || str[i] < '0')  // check for digits according to ascii val
+        if((str[i] >= '0' && str[i] <= '9') || str[i] == '.')  // check for digit and o.
         {
-            
+            if (str[i] != '.')
+            {
+                int convertDouble = str[i] - '0';
+                fromStr = (fromStr * 10) + convertDouble;
+            } 
+            if (str[i] == '.')
+            {
+                double frac = convertFraction(i, str);
+                fromStr += frac;
+                break;
+            }  
         }
-
-        if (str[i] != '.')
-        {
-        int convertDouble = str[i] - '0';
-        fromStr = (fromStr * 10) + convertDouble;
-        }
-
-        if (str[i] == '.')
-        {
-            double frac = convertFraction(i, str);
-            // printf("!frac is :%f\n", frac);
-            fromStr += frac;
-            break;
-        }
+        issueError();
     }
 
     if (negSign == 1)
