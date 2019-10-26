@@ -15,19 +15,23 @@ void issueError()
 double convertFraction(int previousIndex, char *decimalStr)
 {
     previousIndex += 1;
+    double decimalPlace = .1;
     double fromStr = 0.0;
     // printf("string length of decimal is: %li\n", strlen(decimalStr));
     // printf("previous index is: %c\n", decimalStr[previousIndex]);
     // for (previousIndex; previousIndex < strlen(decimalStr); previousIndex++)
     while (decimalStr[previousIndex]  != '\0')
     {
-        double convertDouble = decimalStr[previousIndex] - '0';
-        printf("convertDouble is: %f\n", convertDouble);
+        double convertDouble = (decimalStr[previousIndex] - '0') * decimalPlace;
+        // printf("convertDouble is: %f\n", convertDouble);
+        fromStr = (convertDouble * 10) + fromStr;
         previousIndex += 1;
+        decimalPlace *= .1;
     }
+    fromStr *= .1;
     // fromStr = convertDouble * .10;
 
-    printf("fromStr is: %f\n", fromStr);
+    // printf("fromStr is: %f\n", fromStr);
 
 
     return fromStr;
@@ -39,10 +43,6 @@ double strToInt(char *str)
     int negSign = 0; // 0 if false, 1 if true
     int i = 0;
 
-    if (str[0] == '-')  // check for negative sign
-    {
-        negSign = 1;
-    }
 
     if (strlen(str) > 10)  // to large for data type
     {
@@ -51,6 +51,17 @@ double strToInt(char *str)
 
     for (i = 0; i < strlen(str); i++)
     {
+        if (str[i] == '-')  // check for negative sign
+        {
+            negSign = 1;
+            break;
+        }
+
+        if(str[i] > '9' || str[i] < '0')  // check for digits according to ascii val
+        {
+            
+        }
+
         if (str[i] != '.')
         {
         int convertDouble = str[i] - '0';
@@ -60,10 +71,15 @@ double strToInt(char *str)
         if (str[i] == '.')
         {
             double frac = convertFraction(i, str);
+            // printf("!frac is :%f\n", frac);
             fromStr += frac;
-            // printf("frac is :%f\n", frac);
             break;
         }
+    }
+
+    if (negSign == 1)
+    {
+        fromStr *= -1;
     }
 
     return fromStr;
@@ -76,6 +92,6 @@ int main(int argc, char *argv[])
     }
 
     double intFromStr = strToInt(argv[1]);
-    // printf("%.03f\n", intFromStr);
+    printf("%.03f\n", intFromStr);
     return 0;
 }
