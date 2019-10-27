@@ -19,10 +19,16 @@ double convertFraction(int previousIndex, char *decimalStr)
     double fromStr = 0.0;
     while (decimalStr[previousIndex]  != '\0')
     {
+        if (decimalStr[previousIndex] >= '0' && decimalStr[previousIndex] <= '9')
+        {   
         double convertDouble = (decimalStr[previousIndex] - '0') * decimalPlace;
         fromStr = (convertDouble * 10) + fromStr;
         previousIndex += 1;
         decimalPlace *= .1;
+        }else
+        {
+            issueError();
+        }
     }
     fromStr *= .1;
     return fromStr;
@@ -41,27 +47,31 @@ double strToInt(char *str)
     }
 
     for (i = 0; i < strlen(str); i++)
-    {
-        if (str[0] == '-')  // check for negative sign
+    {        if (str[0] == '-')  // check for negative sign
         {
             negSign = 1;
         }
-
-        if((str[i] >= '0' && str[i] <= '9') || str[i] == '.')  // check for digit and o.
+        int convertDouble = str[i] - '0';
+        if((convertDouble >= 0 && convertDouble<= 10) || str[i] == '.' || str[i] == '-') 
         {
             if (str[i] != '.')
             {
-                int convertDouble = str[i] - '0';
-                fromStr = (fromStr * 10) + convertDouble;
+                if (str[i] >= '0' && str[i] <= '9')
+                    {
+                        
+                        fromStr = (fromStr * 10) + convertDouble;
+                    }         
             } 
             if (str[i] == '.')
             {
                 double frac = convertFraction(i, str);
                 fromStr += frac;
                 break;
-            }  
+            }
+        }else
+        {
+            issueError();
         }
-        issueError();
     }
 
     if (negSign == 1)
@@ -73,11 +83,6 @@ double strToInt(char *str)
 }
 int main(int argc, char *argv[]) 
 {
-    if (argv[1] == '\0')  // check for empty string
-    {
-        issueError();
-    }
-
     double intFromStr = strToInt(argv[1]);
     printf("%.03f\n", intFromStr);
     return 0;
