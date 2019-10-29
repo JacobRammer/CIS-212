@@ -83,7 +83,8 @@ double strToInt(char *str)
 }
 int main(int argc, char *argv[]) 
 {
-    double intFromStr = strToInt(argv[1]);
+    double intFromStr = strToInt("3.14");
     printf("%.03f\n", intFromStr);
     return 0;
 }
+ 
