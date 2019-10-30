@@ -37,9 +37,9 @@ int main (int argc, char *argv[])
     // for (int i = 0; i <= numBytes; i++)
     //     printf("test: %c\n", buff[i]);
 
-    char test[6] = "hello";
-    for(int j = 0; j < 5; j ++)
-        printf("test[j] is: %c\n", test[j]);
+    // char test[6] = "hello";
+    // for(int j = 0; j < 5; j ++)
+    //     printf("test[j] is: %c\n", test[j]);
 
     arguments = argc - 1;
     char * args;
@@ -49,11 +49,11 @@ int main (int argc, char *argv[])
         // printf("argv is : %s\n", argv[k]);
         int comp = strcmp("test", argv[k]);
         if (comp == 0)
-            printf("Strings test and %s are the same\n", argv[k]);
+            // printf("Strings test and %s are the same\n", argv[k]);
             printf("test:%c\n", argv[k][0]);  // will print the first character of argv
     }
 
-    printf("len of argv[2] is: %lu\n", strlen(argv[2]));
+    // printf("len of argv[2] is: %lu\n", strlen(argv[2]));
 
     char test1[5] = "test";
     for (int q = 0; q != numBytes; q++)
@@ -67,11 +67,11 @@ int main (int argc, char *argv[])
             matchedChars ++;
         }else
         {
-            printf("Strings don't match. Test is: %s, argv is: %s\n", test1, argv[2]);
+            // printf("Strings don't match. Test is: %s, argv is: %s\n", test1, argv[2]);
             matchedChars = 0;
             counter = 0;
         }
-        if (buff[q] == ' '&& matchedChars == strlen(argv[2]) - 1)
+        if (buff[q] == '\n'&& matchedChars == 4)
         {
             matchingWords ++;
             printf("matching words: %d\n", matchingWords);
