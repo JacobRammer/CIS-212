@@ -16,6 +16,7 @@ int main (int argc, char *argv[])
     int matchedChars = 0; //  the number of matched chars. will compart to strlen
     int numArgs = argc - 2;
     int argIndex = 0;  // argv[0][argIndex]
+    int offset = 1; // offset of checking previous char
 
     if (argc < 3)  // file name and at least 1 word not provided
     {
@@ -78,23 +79,38 @@ need to have arg[v] index logic
                 // printf("Matched char %c to %c.\n", buff[q], argv[args][argIndex]);
                 matchedChars ++;
                 argIndex ++;
+                offset ++;
                 // printf("matched number of chars is: %d\n", matchedChars);
-                if ((matchedChars == tempvar3) && (buff[q + 1] == ' ' || buff[q + 1] == '\0' || buff[q + 1] == '\n' || buff[q + 1] == '.'))
+                if ((matchedChars == tempvar3) && (buff[q + 1] == ' ' || buff[q + 1] == '\0' || buff[q + 1] == '\n' 
+                || buff[q + 1] == '.' || buff[q + 1] == ','))
                 {
-                    if (buff[q - 1] != ' ' || buff[q - 1] != '\0' || buff[q - 1] != '\n' || buff[q - 1] != '.')
+                    if ((q - 1) != 0)
                     {
-                        printf("Matched char %c to %c\n", buff[q], argv[args][argIndex]);
-                        printf("matched number of chars is: %d\n", matchedChars);
-                        matchingWords++;
-                        argIndex = 0;
-                        matchedChars = 0;
+                        if (buff[q - offset] == ' ' || buff[q - offset] == '\n' || buff[q - offset] == '\0')
+                        {
+                            printf("Matched char %c to %c\n", buff[q], argv[args][argIndex]);
+                            printf("matched number of chars is: %d\n", matchedChars);
+                            matchingWords++;
+                            argIndex = 0;
+                            matchedChars = 0;
+                            offset = 0;
+                        }
+                    }
+                    if ((q - 1) == 0)
+                    {
+                        if (buff[q + 1] == ' ' || buff[q + 1] == '\0' || buff[q + 1] == '\n' || buff[q + 1] == '.'
+                            || buff[q + 1] == ',')
+                        {
+                            printf("Matched char %c to %c\n", buff[q], argv[args][argIndex]);
+                            printf("matched number of chars is: %d\n", matchedChars);
+                            matchingWords++;
+                            argIndex = 0;
+                            matchedChars = 0;
+                        }
                     }
                 }
                 
             }
-                argIndex=0;
-            }
-            
             // if ((matchedChars == tempvar3) && (buff[q+1] == ' ' || buff[q+1] == '\0'|| buff[q+1] == '\n' || buff[q+1] == '.'))
             // {
             //     printf("Matched char %c to %c\n", buff[q], argv[args][argIndex]);
@@ -107,6 +123,7 @@ need to have arg[v] index logic
             {
                 matchedChars = 0;
                 argIndex = 0;
+                offset = 0;
             }
         }
         printf("The word \"%s\" occurs %d times.\n", argv[args], matchingWords);
