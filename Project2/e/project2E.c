@@ -17,6 +17,8 @@ int main (int argc, char *argv[])
     int numArgs = argc - 2;
     int argIndex = 0;  // argv[0][argIndex]
     int offset = 1; // offset of checking previous char
+    int *counts = malloc(numArgs * sizeof(int));
+    int countsInd = 0;
 
     if (argc < 3)  // file name and at least 1 word not provided
     {
@@ -37,6 +39,7 @@ int main (int argc, char *argv[])
     unsigned char *buff = malloc(numBytes);
     fseek(fName, 0, SEEK_SET);
     fread(buff, sizeof(unsigned char), numBytes, fName);
+    fclose(fName);
 
     // for (int i = 0; i <= numBytes; i++)
     //     printf("test: %c\n", buff[i]);
@@ -61,11 +64,12 @@ int main (int argc, char *argv[])
 need to have arg[v] index logic
 */
     // printf("len of argv[2] is: %lu\n", strlen(argv[2]));
-    int tempvar3 = strlen(argv[2]);
+    // int tempvar3 = strlen(argv[]);
     // printf("tempvar3 is: %d, numbytes is: %d\n", tempvar3, numBytes);
     // printf("argv[2][0] is: %c\n", argv[2][0]);
-    for (int args = 2; args < argc; args++)
+    for (int args = 2; args != argc; args++)
     {
+        // printf("argv %s\n", argv[args]);
         argIndex = 0;
         int maxArgIndex = strlen(argv[args]);
         // printf("arg lengh is: %d\n", maxArgIndex);
@@ -76,21 +80,24 @@ need to have arg[v] index logic
                 argIndex = 0;
             if (buff[q] == argv[args][argIndex])
             {
+                // printf(" %c\n", argv[args][argIndex]);
                 // printf("Matched char %c to %c.\n", buff[q], argv[args][argIndex]);
                 matchedChars ++;
                 argIndex ++;
                 offset ++;
                 // printf("matched number of chars is: %d\n", matchedChars);
-                if ((matchedChars == tempvar3) && (buff[q + 1] == ' ' || buff[q + 1] == '\0' || buff[q + 1] == '\n' 
+                if ((matchedChars == strlen(argv[args])) && (buff[q + 1] == ' ' || buff[q + 1] == '\0' || buff[q + 1] == '\n' 
                 || buff[q + 1] == '.' || buff[q + 1] == ','))
                 {
                     if ((q - 1) != 0)
                     {
                         if (buff[q - offset] == ' ' || buff[q - offset] == '\n' || buff[q - offset] == '\0')
                         {
-                            printf("Matched char %c to %c\n", buff[q], argv[args][argIndex]);
-                            printf("matched number of chars is: %d\n", matchedChars);
+                            // printf("Matched char %c to %c\n", buff[q], argv[args][argIndex]);
+                            // printf("matched number of chars is: %d\n", matchedChars);
                             matchingWords++;
+                            // printf("! Index is %d\n", countsInd);
+                            counts[countsInd] ++;
                             argIndex = 0;
                             matchedChars = 0;
                             offset = 0;
@@ -101,15 +108,16 @@ need to have arg[v] index logic
                         if (buff[q + 1] == ' ' || buff[q + 1] == '\0' || buff[q + 1] == '\n' || buff[q + 1] == '.'
                             || buff[q + 1] == ',')
                         {
-                            printf("Matched char %c to %c\n", buff[q], argv[args][argIndex]);
-                            printf("matched number of chars is: %d\n", matchedChars);
+                            // printf("Matched char %c to %c\n", buff[q], argv[args][argIndex]);
+                            // printf("matched number of chars is: %d\n", matchedChars);
                             matchingWords++;
+                            // printf("? Index is %d\n", countsInd);
+                            counts[countsInd] ++;
                             argIndex = 0;
                             matchedChars = 0;
                         }
                     }
                 }
-                
             }
             // if ((matchedChars == tempvar3) && (buff[q+1] == ' ' || buff[q+1] == '\0'|| buff[q+1] == '\n' || buff[q+1] == '.'))
             // {
@@ -126,12 +134,21 @@ need to have arg[v] index logic
                 offset = 0;
             }
         }
-        printf("The word \"%s\" occurs %d times.\n", argv[args], matchingWords);
+        // printf("The word \"%s\" occurs %d times.\n", argv[args], matchingWords);
+        countsInd++;
     }
 
+    // counts[1] = 1;
+    countsInd = 0;
     // printf("the strlen of buff is: %d\n", numBytes);
+    for (int idk= 2; idk < argc; idk++)
+    {
+        printf("The word \"%s\" occurs %d times.\n", argv[idk], counts[countsInd]);
+        countsInd++;
+    }
 
-    printf("matching words: %d\n", matchingWords);
+    // printf("matching words: %d\n", matchingWords);
     free(buff);
+    free(counts);
     return 0;
 }
