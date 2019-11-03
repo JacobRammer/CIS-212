@@ -2,12 +2,15 @@
 # include <stdlib.h>
 
 int main()
-{ 
-    /* buffer overflow
+{
+    /* 
+    buffer overflow
+    */
     int A[3];  // Array of size 3
     int B[3];
 
     printf("A is at %p\n", A);
+    printf("&A is at: %p\n", &A);
     printf("A[0] is at %p\n", &(A[0]));
     printf("A[1] is at %p\n", &(A[1]));
     printf("A[2] is at %p\n", &(A[2]));
@@ -24,7 +27,7 @@ int main()
 
     printf("A = %d %d %d and B = %d %d %d\n", A[0], A[1], A[2], 
     B[0], B[1], B[2]);
-    */
+    
 
     /*
     Dereferencing
@@ -56,9 +59,9 @@ int main()
     printf("p[0] is at %p and p[1] is at %p\n", p + 0, p + 1);  // go over 1 integer (data type of array)
     */
 
-   /* 
+    /* 
    Pointers to pointers
-   */
+   
 
     int x1 = 10;
     int x2 = 20;
@@ -89,4 +92,5 @@ int main()
     for (int i = 0; i < 5; i++)
         printf("%s ", list[i]);
 
+    */
 }

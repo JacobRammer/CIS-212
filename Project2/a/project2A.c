@@ -9,7 +9,7 @@ int main() {
     int value, div;
     int max_val = 500;
 
-    for (value = 10; value <= max_val; value++) 
+    for (value = 10; value != max_val; value++) 
     {
         for (div = 2; div < value; div++)
         {

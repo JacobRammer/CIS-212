@@ -8,8 +8,8 @@
             "type": "lldb",
             "request": "launch",
             "name": "LLDB Debug",
-            "program": "${workspaceFolder}/Project2/e/a.out",
-            "args": ["/Users/jacobrammer/Documents/CIS212/Project2/e/testFile", "i", "h"],
+            "program": "${workspaceFolder}/Project2/b/a.out",
+            "args": [],
             "cwd": "${workspaceFolder}"
         }
 
