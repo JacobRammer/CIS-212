@@ -33,12 +33,12 @@ int main (int argc, char *argv[])
         exit(EXIT_FAILURE);
     }
 
-    fseek(fName, 0, SEEK_END);
-    int numBytes = ftell(fName);
+    fseek(fName, 0, SEEK_END);  // set pointer to end of the file
+    int numBytes = ftell(fName);  // see how much the pointer has moved
     // printf("Number of bytes in fName is %d\n", numBytes);
-    unsigned char *buff = malloc(numBytes);
-    fseek(fName, 0, SEEK_SET);
-    fread(buff, sizeof(unsigned char), numBytes, fName);
+    unsigned char *buff = malloc(numBytes);  // will be the value of how much the pointer moved
+    fseek(fName, 0, SEEK_SET);  // set pointer to the beginning of the file
+    fread(buff, sizeof(unsigned char), numBytes, fName);  // where to store, size of data, how much, from?
     fclose(fName);
 
     arguments = argc - 1;
