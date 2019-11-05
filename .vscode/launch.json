@@ -8,7 +8,7 @@
             "type": "lldb",
             "request": "launch",
             "name": "LLDB Debug",
-            "program": "${workspaceFolder}/Project2/b/a.out",
+            "program": "${workspaceFolder}/Midterm/a.out",
             "args": [],
             "cwd": "${workspaceFolder}"
         }
