@@ -1,13 +1,31 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-
 /*
 Jacob Rammer
 Project 2e
 Please excuse the mess, i thought this was due
 Thursday, not Wednesday.
 */
+
+int allowedChars( int index, unsigned char *buff)
+{
+    /*
+    An attempt to clean up the nasty chained if statements
+    and just maybe fix my valgrind issues. But I don't have much confidence 
+    Check the index for punctuation, new lines or null characters. 
+    This verifies that the matched word is isolated
+    */
+
+    index ++;  // to check char ahead
+    if (buff[index] == ' ' || buff[index] == '\0' || buff[index] == '\n' 
+        || buff[index] == '.' || buff[index] == ',')
+    {
+         // printf("char at %d is: %c\n", index, buff[index]);
+        return 1;
+    }
+    return 0;
+}
 
 int main (int argc, char *argv[])
 {
@@ -19,6 +37,8 @@ int main (int argc, char *argv[])
     int offset = 1; // offset of checking previous char
     int *counts = malloc(numArgs * sizeof(int));
     int countsInd = 0;
+    int lengthStr = 0;
+
 
     if (argc < 3)  // file name and at least 1 word not provided
     {
@@ -34,7 +54,7 @@ int main (int argc, char *argv[])
     }
 
     fseek(fName, 0, SEEK_END);  // set pointer to end of the file
-    int numBytes = ftell(fName);  // see how much the pointer has moved
+    int numBytes = (ftell(fName) + 1);  // see how much the pointer has moved
     // printf("Number of bytes in fName is %d\n", numBytes);
     unsigned char *buff = malloc(numBytes);  // will be the value of how much the pointer moved
     fseek(fName, 0, SEEK_SET);  // set pointer to the beginning of the file
@@ -45,6 +65,7 @@ int main (int argc, char *argv[])
     char * args;
     for (int args = 2; args != argc; args++)
     {
+        lengthStr = strlen(argv[args]);
         // printf("argv %s\n", argv[args]);
         argIndex = 0;
         int maxArgIndex = strlen(argv[args]);
@@ -55,15 +76,15 @@ int main (int argc, char *argv[])
                 argIndex = 0;
             if (buff[q] == argv[args][argIndex])
             {
+                // allowedChars(q, buff);
                 matchedChars ++;
                 argIndex ++;
                 offset ++;
-                if ((matchedChars == strlen(argv[args])) && (buff[q + 1] == ' ' || buff[q + 1] == '\0' || buff[q + 1] == '\n' 
-                || buff[q + 1] == '.' || buff[q + 1] == ','))
+                if ((matchedChars == lengthStr) && (allowedChars(q, buff) == 1))
                 {
                     if ((q - 1) != 0)
-                    {
-                        if (buff[q - offset] == ' ' || buff[q - offset] == '\n' || buff[q - offset] == '\0')
+                    { 
+                        if (allowedChars((q - offset) -1, buff) == 1)
                         {
                             matchingWords++;
                             counts[countsInd] ++;
@@ -74,8 +95,7 @@ int main (int argc, char *argv[])
                     }
                     if ((q - 1) == 0)
                     {
-                        if (buff[q + 1] == ' ' || buff[q + 1] == '\0' || buff[q + 1] == '\n' || buff[q + 1] == '.'
-                            || buff[q + 1] == ',')
+                        if (allowedChars(q, buff))
                         {
                             matchingWords++;
                             counts[countsInd] ++;
@@ -85,7 +105,7 @@ int main (int argc, char *argv[])
                     }
                 }
             }
-            if (buff[q] == ' ' || buff[q+1] == '\n' || buff[q+1] == '\0' || buff[q] == '\n')
+            if (allowedChars(q - 1, buff) == 1 || allowedChars(q, buff) == 1)
             {
                 matchedChars = 0;
                 argIndex = 0;
