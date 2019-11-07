@@ -18,6 +18,8 @@ int allowedChars(int bytes, int index, unsigned char *buff)
     */
     printf("Index is %d\n", index);
     index ++;  // to check char ahead
+    if (index < 0)
+        return 1;
     if (bytes - 1 == index)  // don't want to walk off array
     {
         printf("hello %d\n", index - 1);
@@ -99,7 +101,7 @@ int main (int argc, char *argv[])
                     { 
                         if (allowedChars(numBytes, (q - offset) -1, buff) == 1)  // -1 for incrimenting in allowedchars
                         {
-                            printf("test2");
+                            // printf("test2");
                             matchingWords++;
                             counts[countsInd] ++;
                             argIndex = 0;
@@ -113,7 +115,7 @@ int main (int argc, char *argv[])
                     {
                         if (allowedChars(numBytes, q, buff))
                         {
-                            printf("test3");
+                            // printf("test3");
                             matchingWords++;
                             counts[countsInd] ++;
                             argIndex = 0;

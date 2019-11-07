@@ -8,8 +8,8 @@
             "type": "lldb",
             "request": "launch",
             "name": "LLDB Debug",
-            "program": "${workspaceFolder}/Midterm/a.out",
-            "args": [],
+            "program": "${workspaceFolder}/Project2/f/a.out",
+            "args": ["/Users/jacobrammer/Documents/CIS212/Project2/f/2F_statement.txt", "This"],
             "cwd": "${workspaceFolder}"
         }
 
