@@ -16,19 +16,16 @@ int allowedChars(int bytes, int index, unsigned char *buff)
     Check the index for punctuation, new lines or null characters. 
     This verifies that the matched word is isolated
     */
-    printf("Index is %d\n", index);
     index ++;  // to check char ahead
     if (index < 0)
         return 1;  // to account for offset calc. 
     if (bytes - 1 == index)  // don't want to walk off array
     {
-        printf("hello %d\n", index - 1);
         return 1;  // since it's the end of the file, word matched
     }
     if (buff[index] == ' ' || buff[index] == '\0' || buff[index] == '\n' 
         || buff[index] == '.' || buff[index] == ',')
     {
-         printf("char at %d is: %c\n", index, buff[index]);
         return 1;
     }
     return 0;
@@ -69,13 +66,11 @@ int main (int argc, char *argv[])
 
     fseek(fName, 0, SEEK_END);  // set pointer to end of the file
     numBytes = (ftell(fName));  // see how much the pointer has moved
-    printf("Number of bytes in fName is %d\n", numBytes);
     unsigned char *buff = malloc(numBytes);  // will be the value of how much the pointer moved
     fseek(fName, 0, SEEK_SET);  // set pointer to the beginning of the file
     fread(buff, sizeof(unsigned char), numBytes, fName);  // where to store, size of data, how much, from?
     fclose(fName);
     // buff[numBytes - 2] = '\0';
-    printf("Numbytes is %d\n", numBytes);
     arguments = argc - 1;
     // char * args;
     for (args = 2; args != argc; args++)
