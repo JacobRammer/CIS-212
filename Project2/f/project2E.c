@@ -19,7 +19,7 @@ int allowedChars(int bytes, int index, unsigned char *buff)
     printf("Index is %d\n", index);
     index ++;  // to check char ahead
     if (index < 0)
-        return 1;
+        return 1;  // to account for offset calc. 
     if (bytes - 1 == index)  // don't want to walk off array
     {
         printf("hello %d\n", index - 1);
