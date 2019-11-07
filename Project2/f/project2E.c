@@ -8,7 +8,7 @@ Please excuse the mess, i thought this was due
 Thursday, not Wednesday.
 */
 
-int allowedChars( int index, unsigned char *buff)
+int allowedChars(int bytes, int index, unsigned char *buff)
 {
     /*
     An attempt to clean up the nasty chained if statements
@@ -16,12 +16,17 @@ int allowedChars( int index, unsigned char *buff)
     Check the index for punctuation, new lines or null characters. 
     This verifies that the matched word is isolated
     */
-
+    printf("Index is %d\n", index);
     index ++;  // to check char ahead
+    if (bytes - 1 == index)  // don't want to walk off array
+    {
+        printf("hello %d\n", index - 1);
+        return 1;  // since it's the end of the file, word matched
+    }
     if (buff[index] == ' ' || buff[index] == '\0' || buff[index] == '\n' 
         || buff[index] == '.' || buff[index] == ',')
     {
-         // printf("char at %d is: %c\n", index, buff[index]);
+         printf("char at %d is: %c\n", index, buff[index]);
         return 1;
     }
     return 0;
@@ -38,7 +43,14 @@ int main (int argc, char *argv[])
     int *counts = malloc(numArgs * sizeof(int));
     int countsInd = 0;
     int lengthStr = 0;
+    int numBytes, args, maxArgIndex, q, idk, mem, bIdx;
 
+    /* 
+    Because valgrind was mad I didn't 
+    initialize counts
+    */
+    for (mem = 0; mem != numArgs; mem++)
+        counts[mem] = 0;
 
     if (argc < 3)  // file name and at least 1 word not provided
     {
@@ -54,23 +66,24 @@ int main (int argc, char *argv[])
     }
 
     fseek(fName, 0, SEEK_END);  // set pointer to end of the file
-    int numBytes = (ftell(fName) + 1);  // see how much the pointer has moved
-    // printf("Number of bytes in fName is %d\n", numBytes);
+    numBytes = (ftell(fName));  // see how much the pointer has moved
+    printf("Number of bytes in fName is %d\n", numBytes);
     unsigned char *buff = malloc(numBytes);  // will be the value of how much the pointer moved
     fseek(fName, 0, SEEK_SET);  // set pointer to the beginning of the file
     fread(buff, sizeof(unsigned char), numBytes, fName);  // where to store, size of data, how much, from?
     fclose(fName);
-
+    // buff[numBytes - 2] = '\0';
+    printf("Numbytes is %d\n", numBytes);
     arguments = argc - 1;
-    char * args;
-    for (int args = 2; args != argc; args++)
+    // char * args;
+    for (args = 2; args != argc; args++)
     {
         lengthStr = strlen(argv[args]);
         // printf("argv %s\n", argv[args]);
         argIndex = 0;
-        int maxArgIndex = strlen(argv[args]);
+        maxArgIndex = strlen(argv[args]);
         // printf("arg lengh is: %d\n", maxArgIndex);
-        for (int q = 0; q < numBytes; q++)
+        for (q = 0; q < numBytes; q++)
         {
             if (argIndex > maxArgIndex)
                 argIndex = 0;
@@ -80,12 +93,13 @@ int main (int argc, char *argv[])
                 matchedChars ++;
                 argIndex ++;
                 offset ++;
-                if ((matchedChars == lengthStr) && (allowedChars(q, buff) == 1))
+                if ((matchedChars == lengthStr) && (allowedChars(numBytes, q, buff) == 1))
                 {
                     if ((q - 1) != 0)
                     { 
-                        if (allowedChars((q - offset) -1, buff) == 1)  // -1 for incrimenting in allowedchars
+                        if (allowedChars(numBytes, (q - offset) -1, buff) == 1)  // -1 for incrimenting in allowedchars
                         {
+                            printf("test2");
                             matchingWords++;
                             counts[countsInd] ++;
                             argIndex = 0;
@@ -97,8 +111,9 @@ int main (int argc, char *argv[])
                     }
                     if ((q - 1) == 0)
                     {
-                        if (allowedChars(q, buff))
+                        if (allowedChars(numBytes, q, buff))
                         {
+                            printf("test3");
                             matchingWords++;
                             counts[countsInd] ++;
                             argIndex = 0;
@@ -109,7 +124,7 @@ int main (int argc, char *argv[])
                     }
                 }
             }
-            if (allowedChars(q - 1, buff) == 1 || allowedChars(q, buff) == 1)
+            if (allowedChars(numBytes, q - 1, buff) == 1 || allowedChars(numBytes, q, buff) == 1)
             {
                 matchedChars = 0;
                 argIndex = 0;
@@ -120,7 +135,7 @@ int main (int argc, char *argv[])
     }
 
     countsInd = 0;
-    for (int idk= 2; idk < argc; idk++)
+    for (idk= 2; idk < argc; idk++)
     {
         printf("The word \"%s\" occurs %d times.\n", argv[idk], counts[countsInd]);
         countsInd++;
