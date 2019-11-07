@@ -84,13 +84,15 @@ int main (int argc, char *argv[])
                 {
                     if ((q - 1) != 0)
                     { 
-                        if (allowedChars((q - offset) -1, buff) == 1)
+                        if (allowedChars((q - offset) -1, buff) == 1)  // -1 for incrimenting in allowedchars
                         {
                             matchingWords++;
                             counts[countsInd] ++;
                             argIndex = 0;
                             matchedChars = 0;
                             offset = 0;
+                            if (q == numBytes - 1)
+                                break;
                         }
                     }
                     if ((q - 1) == 0)
@@ -101,6 +103,8 @@ int main (int argc, char *argv[])
                             counts[countsInd] ++;
                             argIndex = 0;
                             matchedChars = 0;
+                            if (q == numBytes - 1)
+                                break;
                         }
                     }
                 }
