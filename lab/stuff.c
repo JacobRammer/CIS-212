@@ -14,7 +14,7 @@ int main(int argc, char ** argv)
     FILE *binary_file=fopen(argv[1], "w+");
     FILE *text_file = fopen(argv[2], "w+");
 
-    fwrite(a, sizeof * a, 4, binary_file);
+    fwrite(a, sizeof *a, 4, binary_file);
     fwrite(b, sizeof *b, 4, text_file);
 
     fprintf(text_file, "\n");
