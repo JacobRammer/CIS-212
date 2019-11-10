@@ -23,11 +23,6 @@ int main(int argc, char *argv[])
     }
 
     FILE *txtFile = fopen(argv[2], "w+");
-    if (txtFile == NULL)
-    {
-        printf("%s is not a valid file name.\n", argv[2]);
-        exit(EXIT_FAILURE);
-    }
 
     while (seekIndex <= 36)
     {

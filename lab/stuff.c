@@ -26,8 +26,8 @@ int main(int argc, char ** argv)
     int buffer[2];
     fread(buffer, sizeof *buffer, 2, binary_file);
 
-    for (int i = 0; i < 0; i++)
-        fprintf(text_file, "%d\n", buffer[i]);
+    // for (int i = 0; i < 0; i++)
+    //     fprintf(text_file, "%d\n", buffer[i]);
 
 
     fclose(binary_file);
