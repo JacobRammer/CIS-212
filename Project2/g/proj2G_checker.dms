@@ -1,0 +1,30 @@
+#!/bin/bash
+gcc -o generated-2G project2G.c
+if [[ $? != 0 ]] ; then
+   echo "Cannot compile your program"
+   echo "Failed"
+   exit 1
+fi
+
+if [[ ! -f binary-file-2G ]] ; then
+   echo "Cannot find file binary-file-2G"
+   echo "Failed"
+   exit 1
+fi
+
+if [[ ! -f correct-output-2G ]] ; then
+   echo "Cannot find file correct-output-2G"
+   echo "Failed"
+   exit 1
+fi
+
+
+./generated-2G binary-file-2G your-output
+diff your-output correct-output-2G
+if [[ $? == 0 ]] ; then
+   echo "Your output matched the correct output. Success!"
+   exit 0
+else
+   echo "Your output did not match the correct output. Unsuccess."
+   exit 1
+fi
