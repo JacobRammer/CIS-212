@@ -32,6 +32,7 @@ int main(int argc, char *argv[])
     if (binFile == NULL)
     {
         printf("%s is not a valid file", argv[1]);
+        exit(EXIT_FAILURE);
     }
 
     FILE *txtFile = fopen(argv[2], "w+");
