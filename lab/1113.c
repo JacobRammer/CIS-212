@@ -7,7 +7,7 @@ typedef struct name FullName;
 struct name
 {
     char *fname;
-    char *lname
+    char *lname;
 }name;
 
 typedef struct info Info;

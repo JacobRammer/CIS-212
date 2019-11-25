@@ -34,7 +34,7 @@ typedef struct
     int green;
 }Apple;
 
-char *BananaGetColor(Fruit *fr)
+char *BananaGetColor(void *fr)
 {
     // printf("banana color\n");
     return "yellow";
@@ -53,14 +53,14 @@ char* FruitGetColor(Fruit *fr)
     return color;
 }
 
-double BananaGetVolume(Banana *fr)
+double BananaGetVolume(void *fr)
 {
     Banana *f = (Banana *) fr;
     double volume = (f->height * f->radius * f->radius * 3.14);
     return volume;
 }
 
-char* AppleGetColor(Apple *ap)
+char* AppleGetColor(void *ap)
 {
     Apple *a = (Apple *) ap;
     if (a->green == 1)  
@@ -68,7 +68,7 @@ char* AppleGetColor(Apple *ap)
     return "red";
 }
 
-double AppleGetVolume(Apple *ap)
+double AppleGetVolume(void *ap)
 {
     Apple *a = (Apple *) ap;
     double volume = (4 / 3.0 * a->radius * a->radius * a->radius * 3.14);
