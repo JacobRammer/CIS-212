@@ -10,7 +10,7 @@ Jacob Rammer
 typedef struct
 {
     int top;
-    int stack[MAX];
+    double stack[MAX];
 
 }Stack;
 
@@ -30,30 +30,19 @@ void initialize(Stack *s)
     s->top = 0;
 }
 
-void Push(Stack *s, int x)
+void Push(Stack *s, double x)
 {
-    if (isFull(s))
-    {
-        printf("Stack full\n");
-        return;
-    }
-    else
-    {
+    
         s->stack[s->top] = x;
         s->top++;
         // printf("pushing %d\n", x);
-    }
+
     
 }
 
-int pop(Stack *s)
+double pop(Stack *s)
 {
-    if (isEmpty(s))
-    {
-        printf("Stack is empty\n");
-        exit(EXIT_FAILURE);
-        // return s->stack[s->top--];  //This doesnt work???!
-    }
+    // return s->stack[s->top--];  //This doesnt work???!
     (s->top)--;
     return s->stack[s->top];
 }
@@ -72,14 +61,28 @@ int isOperation(char operation)
 
 double doOperation(double intOne, double intTwo, char sign)
 {
+    // printf("1: %f, 2: %f\n", intOne, intTwo);
+    // printf("sign is %c\n", sign);
     if (sign == '+')
+    {
+        // printf("plus return value:%f\n", intOne + intTwo);
         return (intOne + intTwo);
+    }
     if (sign == '-')
+    {
+        // printf("Minus return value:%f\n", intOne - intTwo);
         return (intOne - intTwo);
+    }
     if (sign == '/')
+    {
+        // printf("divide return value:%f\n", intOne / intTwo);
         return (intOne / intTwo);
+    }
     if (sign == 'x')
+    {
+        // printf("times return value:%f\n", intOne * intTwo);
         return (intOne * intTwo);
+    }
     return -1;
 }
 
@@ -156,22 +159,22 @@ int main(int argc, char *argv[])
 {
     Stack s;
     initialize(&s);
-    int total = 0;
-    int num = 0;
-    int intOne = 0;
-    int intTwo = 0;
+    double total = 0;
+    double num = 0;
+    double intOne = 0;
+    double intTwo = 0;
     int i = 0;
 
     for(i = 1; i < argc; i++)
     {
-
         if(isOperation(*argv[i]))
         {
             intTwo = pop(&s);
             intOne = pop(&s);
 
             // calculate
-            total += doOperation(intOne, intTwo, *argv[i]);
+            total = doOperation(intOne, intTwo, *argv[i]);
+            // printf("after return %f\n", total);
             Push(&s, total);
         }else
         {
@@ -180,7 +183,7 @@ int main(int argc, char *argv[])
         }
         
     }
-    printf("total is %d\n", total);
+    printf("The total is %.03f\n", total);
 
     // for(int i = 0; i < MAX; i++)
     //     Push(&s, i);
