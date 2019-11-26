@@ -4,14 +4,14 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
-        {
-            "type": "lldb",
-            "request": "launch",
-            "name": "LLDB Debug",
-            "program": "/Users/jacobrammer/Documents/CIS212/Project3/b/a.out",
-            "args": ["3", "2", "x", "11", "-"],
-            "cwd": "${workspaceFolder}"
-        }
-
+        
+    {
+        "name": "Launch",
+        "type": "lldb",
+        "request": "launch",
+        "program": "${workspaceFolder}/Project3/b/a.out",
+        "args": [ "5", "9", "-"
+        ],
+    }
     ]
 }
