@@ -14,17 +14,6 @@ typedef struct
 
 }Stack;
 
-int isEmpty(Stack *s)
-{
-    return s->top == 0;
-}
-
-int isFull(Stack *s)
-{
-    return s->top == MAX;
-}
-
-
 void initialize(Stack *s)
 {
     s->top = 0;
@@ -35,9 +24,7 @@ void Push(Stack *s, double x)
     
         s->stack[s->top] = x;
         s->top++;
-        // printf("pushing %d\n", x);
-
-    
+        // printf("pushing %d\n", x)
 }
 
 double pop(Stack *s)
@@ -184,14 +171,6 @@ int main(int argc, char *argv[])
         
     }
     printf("The total is %.03f\n", total);
-
-    // for(int i = 0; i < MAX; i++)
-    //     Push(&s, i);
-    // for(int i = 0; i < MAX; i++)
-    //     printf("Popping %d\n", pop(&s));
-
-
-
     return 0;
 }
  
