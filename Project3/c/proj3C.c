@@ -33,8 +33,8 @@ char* Dequeue(Queue *q)
 {
     if (q->front < 0)
     {
-        printf("Failed here\n");
-        exit(EXIT_FAILURE);
+//        printf("Failed here\n");
+        return 0;
     }
     char* beforeDequeue = q->elements[q->front];
     q->front++;
@@ -99,7 +99,7 @@ char *NewString(char *s)
 char* removeLabels(char* name, int index)
 {
     int newStrLen = strlen(name) - 4;
-    char* newStr = malloc(newStrLen);
+    char* newStr = malloc(newStrLen + 1);
     int newStrIdx = 0;
     for(int i = index; i < strlen(name); i++)
     {
@@ -167,6 +167,27 @@ void dequeInOrder(char* line, Queue *md, Queue *mr, Queue *fd, Queue *fr, Queue 
             printf("MATCH: %s donates to %s at hospital %s\n", Dequeue(md), Dequeue(mr), Dequeue(h));
         }
     }
+    if(line[2] == 'F' && line[0] == 'D')  // deque females
+    {
+//        char* noLabels = removeLabels(line, 4);
+        if((h->front) == (h->back) || (fd->front) == (fd->back)) {
+//            printf("Hospital queue is empty\n");
+            return;
+        }else{
+            printf("MATCH: %s donates to %s at hospital %s\n", Dequeue(fd), Dequeue(fr), Dequeue(h));
+        }
+    }
+    if(line[2] == 'M' && line[0] == 'D')  // deque females
+    {
+//        char* noLabels = removeLabels(line, 4);
+        if((h->front) == (h->back) || (fd->front) == (fd->back)) {
+//            printf("Hospital queue is empty\n");
+            return;
+        }else{
+            printf("MATCH: %s donates to %s at hospital %s\n", Dequeue(mr), Dequeue(mr), Dequeue(h));
+        }
+    }
+
 
 }
 
@@ -236,10 +257,15 @@ int main(int argc, char *argv[])
      */
     for (int i = 0; i < setLines; i++)
         placeInCorrectQueue(buff[i], &maleDonors, &maleRecipients, &femaleDonors, &femaleRecipients, &hospital);
+    for(int i = 0; i < setLines; i++)
+    {
+       if(buff[i][0] != 'H')
+           dequeInOrder(buff[i], &maleDonors, &maleRecipients, &femaleDonors, &femaleRecipients, &hospital);
+    }
+    while(Dequeue(&maleDonors) != 0)
+        printf("no match for male donor %s\n", Dequeue(&maleDonors));
 
 
-   for(int i = 0; i < setLines; i++)
-       dequeInOrder(buff[i], &maleDonors, &maleRecipients, &femaleDonors, &femaleRecipients, &hospital);
 //
 //    PrintQueue(&maleDonors);
 //    PrintQueue(&maleRecipients);
