@@ -9,13 +9,18 @@ typedef struct
 {
     int back;
     int front;
+    int priority;
     char* elements[QUEUE_SIZE];
 } Queue;
 
 void InitializeQueue(Queue *q)
 {
+    for(int i = 0; i < QUEUE_SIZE; i++)
+        q->elements[i] = NULL;
     q->front = 0;
     q->back = 0;
+    q->priority = 0;
+
 }
 
 void Enqueue(Queue *q, char* val)
@@ -27,6 +32,7 @@ void Enqueue(Queue *q, char* val)
     }
     q->elements[q->back] = val;
     q->back++;
+    q->priority++;
 }
 
 char* Dequeue(Queue *q)
@@ -38,10 +44,9 @@ char* Dequeue(Queue *q)
     }
     char* beforeDequeue = q->elements[q->front];
     q->front++;
+    q->priority = 0;
     return beforeDequeue;
 }
-
-
 
 void PrintQueue(Queue *q)
 {
@@ -69,23 +74,22 @@ void PrintQueue(Queue *q)
 
 
 
-//void
-//PrettyPrintQueue(Queue *q, char *type)
-//{
-//    if (Front(q) == NULL)
-//    {
-//        printf("No unmatched entries for %s\n", type);
-//    }
-//    else
-//    {
-//        char *s;
-//        printf("Unmatched %s:\n", type);
-//        while ((s = Dequeue(q)))
-//        {
-//            printf("%s\n", s);
-//        }
-//    }
-//}
+void PrettyPrintQueue(Queue *q, char *type)
+{
+    if (q->front == NULL)
+    {
+        printf("No unmatched entries for %s\n", type);
+    }
+    else
+    {
+        char *s;
+        printf("Unmatched %s:\n", type);
+        while ((s = Dequeue(q)))
+        {
+            printf("%s\n", s);
+        }
+    }
+}
 
 
 char *NewString(char *s)
@@ -96,51 +100,31 @@ char *NewString(char *s)
     rv[len-1] = '\0'; /* take out newline */
     return rv;
 }
-char* removeLabels(char* name, int index)
-{
-    int newStrLen = strlen(name) - 4;
-    char* newStr = malloc(newStrLen + 1);
-    int newStrIdx = 0;
-    for(int i = index; i < strlen(name); i++)
-    {
-        newStr[newStrIdx] = name[i];
-        newStrIdx++;
-    }
-    char * tmp = newStr;
-//    free(newStr);
-    return tmp;
-}
+
+
+
+
 void placeInCorrectQueue(char* line, Queue *md, Queue *mr, Queue *fd, Queue *fr, Queue *h)
 {
     if (line[0] == 'R'  && line[2] == 'F')  // recipient
     {
-        char* frNoLabel = removeLabels(line, 4);
-//        printf("placed %s in fr queue\n", frNoLabel);
-        Enqueue(fr, frNoLabel);
+        Enqueue(fr, line + 4);
     }
     if (line[0] == 'D'  && line[2] == 'F')  // donor
     {
-        char* fdNoLabels = removeLabels(line, 4);
-//        printf("placed %s in fd queue\n", fdNoLabels);
-        Enqueue(fd, fdNoLabels);
+        Enqueue(fd, line + 4);
     }
     if (line[0] == 'R'  && line[2] == 'M')
     {
-        char* mrNoLabels = removeLabels(line, 4);
-//        printf("placed %s in mr queue\n", mrNoLabels);
-        Enqueue(mr, mrNoLabels);
+        Enqueue(mr, line + 4);
     }
     if (line[0] == 'D'  && line[2] == 'M')
     {
-        char* mdNoLabels = removeLabels(line, 4);
-//        printf("placed %s in md queue\n", mdNoLabels);
-        Enqueue(md, mdNoLabels);
+        Enqueue(md, line + 4);
     }
     if (line[0] == 'H')
     {
-        char* hNoLabels = removeLabels(line, 2);
-//        printf("placed %s in h queue\n", hNoLabels);
-        Enqueue(h, hNoLabels);
+        Enqueue(h, line + 2);
     }
 }
 
@@ -256,14 +240,24 @@ int main(int argc, char *argv[])
      * Start queue
      */
     for (int i = 0; i < setLines; i++)
-        placeInCorrectQueue(buff[i], &maleDonors, &maleRecipients, &femaleDonors, &femaleRecipients, &hospital);
-    for(int i = 0; i < setLines; i++)
     {
-       if(buff[i][0] != 'H')
-           dequeInOrder(buff[i], &maleDonors, &maleRecipients, &femaleDonors, &femaleRecipients, &hospital);
+        placeInCorrectQueue(buff[i], &maleDonors, &maleRecipients, &femaleDonors, &femaleRecipients, &hospital);
+        if(buff[i][0] == 'H')
+        {
+            if(femaleRecipients.priority > maleRecipients.priority &&)
+                dequeInOrder()
+        }
+
     }
-    while(Dequeue(&maleDonors) != 0)
-        printf("no match for male donor %s\n", Dequeue(&maleDonors));
+    for(int i = 0; i < hospital.back; i++)
+            dequeInOrder(buff[i], &maleDonors, &maleRecipients, &femaleDonors, &femaleRecipients, &hospital);
+//    for(int i = 0; i < setLines; i++)
+//    {
+//       if(buff[i][0] != 'H')
+//       {
+//           dequeInOrder(buff[i], &maleDonors, &maleRecipients, &femaleDonors, &femaleRecipients, &hospital);
+//       }
+//    }
 
 
 //
