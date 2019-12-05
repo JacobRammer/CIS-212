@@ -39,7 +39,7 @@ char* Dequeue(Queue *q)
 {
     if (q->front < 0)
     {
-        printf("Failed here\n");
+        printf("At beginning of queue\n");
         return 0;
     }
     char* beforeDequeue = q->elements[q->front];
@@ -130,7 +130,7 @@ void placeInCorrectQueue(char* line, Queue *md, Queue *mr, Queue *fd, Queue *fr,
 
 void dequeInOrder(const char* line, Queue *md, Queue *mr, Queue *fd, Queue *fr, Queue *h)
 {
-    if((line[2] == 'F' && line[0] == 'R')  || (line[2] == 'F' && line[0] == 'D'))  // deque females
+    if((line[2] == 'F' && line[0] == 'R')  || (line[2] == 'F' && line[0] == 'D'))  // dequeue females
     {
         if((h->front) == (h->back) || (fd->front) == (fd->back) || (fr->front) == (fr->back)) {
             return;
@@ -139,7 +139,7 @@ void dequeInOrder(const char* line, Queue *md, Queue *mr, Queue *fd, Queue *fr, 
         }
     }
 
-    if((line[2] == 'M' && line[0] == 'R') || (line[2] == 'M' && line[0] == 'D'))  // deque males
+    if((line[2] == 'M' && line[0] == 'R') || (line[2] == 'M' && line[0] == 'D'))  // dequeue males
     {
         if((h->front) == (h->back) || (md->front) == (md->back) || (mr->front) == (mr->back)) {
             return;
@@ -222,11 +222,15 @@ int main(int argc, char *argv[])
 
 
     for(int i = 0; i < setLines; i++) {
-        if ((buff[i][0] == 'R') || (buff[i][0] == 'D')) {
+        if(buff[i][0] == 'H')
+        {
+            i++;
             dequeInOrder(buff[i], &maleDonors, &maleRecipients, &femaleDonors, &femaleRecipients, &hospital);
+        }else{
+            dequeInOrder(buff[i], &maleDonors, &maleRecipients, &femaleDonors, &femaleRecipients, &hospital);
+
         }
     }
-//    }
 
 
 //
