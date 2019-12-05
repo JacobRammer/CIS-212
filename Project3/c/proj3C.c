@@ -39,7 +39,7 @@ char* Dequeue(Queue *q)
 {
     if (q->front < 0)
     {
-//        printf("Failed here\n");
+        printf("Failed here\n");
         return 0;
     }
     char* beforeDequeue = q->elements[q->front];
@@ -128,51 +128,25 @@ void placeInCorrectQueue(char* line, Queue *md, Queue *mr, Queue *fd, Queue *fr,
     }
 }
 
-void dequeInOrder(char* line, Queue *md, Queue *mr, Queue *fd, Queue *fr, Queue *h)
+void dequeInOrder(const char* line, Queue *md, Queue *mr, Queue *fd, Queue *fr, Queue *h)
 {
-    if(line[2] == 'F' && line[0] == 'R')  // deque females
+    if((line[2] == 'F' && line[0] == 'R')  || (line[2] == 'F' && line[0] == 'D'))  // deque females
     {
-//        char* noLabels = removeLabels(line, 4);
-        if((h->front) == (h->back) || (fd->front) == (fd->back)) {
-//            printf("Hospital queue is empty\n");
+        if((h->front) == (h->back) || (fd->front) == (fd->back) || (fr->front) == (fr->back)) {
             return;
         }else{
             printf("MATCH: %s donates to %s at hospital %s\n", Dequeue(fd), Dequeue(fr), Dequeue(h));
         }
     }
 
-    if(line[2] == 'M' && line[0] == 'R')  // deque males
+    if((line[2] == 'M' && line[0] == 'R') || (line[2] == 'M' && line[0] == 'D'))  // deque males
     {
-//        char* noLabels = removeLabels(line, 4);
-        if((h->front) == (h->back) || (md->front) == (md->back)) {
-//            printf("Hospital queue is empty\n");
+        if((h->front) == (h->back) || (md->front) == (md->back) || (mr->front) == (mr->back)) {
             return;
         }else{
             printf("MATCH: %s donates to %s at hospital %s\n", Dequeue(md), Dequeue(mr), Dequeue(h));
         }
     }
-    if(line[2] == 'F' && line[0] == 'D')  // deque females
-    {
-//        char* noLabels = removeLabels(line, 4);
-        if((h->front) == (h->back) || (fd->front) == (fd->back)) {
-//            printf("Hospital queue is empty\n");
-            return;
-        }else{
-            printf("MATCH: %s donates to %s at hospital %s\n", Dequeue(fd), Dequeue(fr), Dequeue(h));
-        }
-    }
-    if(line[2] == 'M' && line[0] == 'D')  // deque females
-    {
-//        char* noLabels = removeLabels(line, 4);
-        if((h->front) == (h->back) || (fd->front) == (fd->back)) {
-//            printf("Hospital queue is empty\n");
-            return;
-        }else{
-            printf("MATCH: %s donates to %s at hospital %s\n", Dequeue(mr), Dequeue(mr), Dequeue(h));
-        }
-    }
-
-
 }
 
 int main(int argc, char *argv[])
@@ -242,21 +216,16 @@ int main(int argc, char *argv[])
     for (int i = 0; i < setLines; i++)
     {
         placeInCorrectQueue(buff[i], &maleDonors, &maleRecipients, &femaleDonors, &femaleRecipients, &hospital);
-        if(buff[i][0] == 'H')
-        {
-            if(femaleRecipients.priority > maleRecipients.priority &&)
-                dequeInOrder()
-        }
+
 
     }
-    for(int i = 0; i < hospital.back; i++)
+
+
+    for(int i = 0; i < setLines; i++) {
+        if ((buff[i][0] == 'R') || (buff[i][0] == 'D')) {
             dequeInOrder(buff[i], &maleDonors, &maleRecipients, &femaleDonors, &femaleRecipients, &hospital);
-//    for(int i = 0; i < setLines; i++)
-//    {
-//       if(buff[i][0] != 'H')
-//       {
-//           dequeInOrder(buff[i], &maleDonors, &maleRecipients, &femaleDonors, &femaleRecipients, &hospital);
-//       }
+        }
+    }
 //    }
 
 
