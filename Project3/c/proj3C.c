@@ -76,7 +76,7 @@ void PrintQueue(Queue *q)
 
 void PrettyPrintQueue(Queue *q, char *type)
 {
-    if (q->front == NULL)
+    if (q->elements[q->front] == NULL)
     {
         printf("No unmatched entries for %s\n", type);
     }
@@ -213,31 +213,133 @@ int main(int argc, char *argv[])
     /*
      * Start queue
      */
-    for (int i = 0; i < setLines; i++)
+//    for (int i = 0; i < setLines; i++)
+//    {
+//        placeInCorrectQueue(buff[i], &maleDonors, &maleRecipients, &femaleDonors, &femaleRecipients, &hospital);
+//    }
+
+    for(int i = 0; i < setLines; i++)
     {
         placeInCorrectQueue(buff[i], &maleDonors, &maleRecipients, &femaleDonors, &femaleRecipients, &hospital);
+            for(int j = 0; j <= i; j++)
+            {
+                if(hospital.elements[hospital.front] != NULL)
+                {
+                    if(femaleDonors.elements[femaleDonors.front] != NULL && femaleRecipients.elements[femaleRecipients.front] != NULL)
+                    {
+                        printf("MATCH: %s donates to %s at hospital %s\n", Dequeue(&femaleDonors), Dequeue(&femaleRecipients), Dequeue(&hospital));
+//                        printf("j is %d\n", j);
+                        buff[j] = NULL;
+                        break;
+                    }else if(maleDonors.elements[maleDonors.front] != NULL && maleRecipients.elements[maleRecipients.front] != NULL)
+                    {
+                        printf("MATCH: %s donates to %s at hospital %s\n", Dequeue(&maleDonors), Dequeue(&maleRecipients), Dequeue(&hospital));
+                        buff[j] = NULL;
+                        break;
+                    }
 
-
+                }
+            }
     }
 
 
-    for(int i = 0; i < setLines; i++) {
-        if(buff[i][0] == 'H')
-        {
-            i++;
-            dequeInOrder(buff[i], &maleDonors, &maleRecipients, &femaleDonors, &femaleRecipients, &hospital);
-        }else{
-            dequeInOrder(buff[i], &maleDonors, &maleRecipients, &femaleDonors, &femaleRecipients, &hospital);
+    PrettyPrintQueue(&femaleDonors, "female donors");
+    PrettyPrintQueue(&femaleRecipients, "female recipients");
+    PrettyPrintQueue(&maleDonors, "male donors");
+    PrettyPrintQueue(&maleRecipients, "male recipients");
+    PrettyPrintQueue(&hospital, "hospitals");
 
-        }
-    }
+
+//        if(buff[i][0] == 'H')
+//        {
+////            printf("buff[%d] is %s\n", i, buff[i]);
+////            printf("femalerecipients.front is %d and malerecipients.front is %d\n", femaleRecipients.front, maleRecipients.front);
+//            if(femaleRecipients.priority > maleRecipients.priority)  // time between queues is bigger
+//            {
+//                if ((femaleDonors.elements[femaleDonors.front] != NULL) && (femaleRecipients.elements[femaleRecipients.front] != NULL ))
+//                printf("MATCH: %s donates to %s at hodsfspital %s\n", Dequeue(&femaleDonors),
+//                        Dequeue(&femaleRecipients),Dequeue(&hospital));
+//
+//            }
+//            else if(maleRecipients.priority > femaleRecipients.priority)
+//            {
+//                if ((maleDonors.elements[maleDonors.front] != NULL) && (maleRecipients.elements[maleRecipients.front] != NULL ))
+//                    printf("MATCH: %s donates to %s at hodsfspital %s\n", Dequeue(&maleDonors),
+//                           Dequeue(&maleRecipients),Dequeue(&hospital));
+//            }
+//            else if ((femaleDonors.elements[femaleDonors.front] != NULL) && (femaleRecipients.elements[femaleRecipients.front] != NULL ))
+//                printf("MATCH: %s donates to %s at hodsfspital %s\n", Dequeue(&femaleDonors),
+//                       Dequeue(&femaleRecipients),Dequeue(&hospital));
+//            else if ((maleDonors.elements[maleDonors.front] != NULL) && (maleRecipients.elements[maleRecipients.front] != NULL ))
+//                printf("MATCH: %s donates to %s at hodsfspital %s\n", Dequeue(&maleDonors),
+//                       Dequeue(&maleRecipients),Dequeue(&hospital));
+//
+//        }
+//        if (buff[i][0] == 'H')femaleRecipients.front > maleRecipients.front) {
+//            if (femaleDonors.elements[femaleDonors.front] != NULL)
+//                printf("MATCH: %s donates to %s at hodsfspital %s\n", Dequeue(&femaleDonors), Dequeue(&femaleRecipients),Dequeue(&hospital));
+//        }
+//        if(buff[i][0] == 'H' && maleRecipients.front > femaleRecipients.front)
+//        {
+//            if(maleDonors.elements[maleDonors.front] != NULL)
+//                printf("MATCH: %s donates to %s at hodsfspital %s\n", Dequeue(&maleDonors), Dequeue(&maleRecipients),Dequeue(&hospital));
+//
+//        }
+//    }
+
+
+
+
+
+
+
+
+
+
+//            if (femaleRecipients.priority > maleRecipients.priority) {
+//                if ((femaleDonors.elements[femaleDonors.front] != NULL)
+//                    && (femaleRecipients.elements[femaleRecipients.front] != NULL) &&
+//                    (hospital.elements[hospital.front] != NULL))
+//                    printf("MATCH: %s donates to %s at hospital %s\n", Dequeue(&femaleDonors),
+//                           Dequeue(&femaleRecipients), Dequeue(&hospital));
+//
+//            }
+//            if (maleRecipients.priority > femaleRecipients.priority) {
+////            printf("male priority: %d female priority: %d\n", maleRecipients.priority, femaleRecipients.priority);
+//                if ((maleDonors.elements[maleDonors.front] != NULL) &&
+//                    (maleRecipients.elements[maleRecipients.front] != NULL) &&
+//                    (hospital.elements[hospital.front] != NULL))
+//                    printf("MATCH: %s donates to %s at hodsfspital %s\n", Dequeue(&maleDonors),
+//                           Dequeue(&maleRecipients),
+//                           Dequeue(&hospital));
+//            } else {
+//                if ((maleDonors.elements[maleDonors.front] != NULL) &&
+//                    (maleRecipients.elements[maleRecipients.front] != NULL) &&
+//                    (hospital.elements[hospital.front] != NULL))
+//                    printf("MATCH: %s dondfgdfates to %s at hospital %s\n", Dequeue(&maleDonors),
+//                           Dequeue(&maleRecipients),
+//                           Dequeue(&hospital));
+//                if ((femaleDonors.elements[femaleDonors.front] != NULL)
+//                    && (femaleRecipients.elements[femaleRecipients.front] != NULL) &&
+//                    (hospital.elements[hospital.front] != NULL))
+//                    printf("MATCH: %s donates to %s at sdds %s\n", Dequeue(&femaleDonors), Dequeue(&femaleRecipients),
+//                           Dequeue(&hospital));
+//
+//            }
+//        }
+//    }
 
 
 //
+//    printf("male donor:\n");
 //    PrintQueue(&maleDonors);
+//    printf("\nmale recipients\n");
 //    PrintQueue(&maleRecipients);
+//    printf("\nfemale donors\n");
 //    PrintQueue(&femaleDonors);
+//    printf("\nfemale recipients\n");
 //    PrintQueue(&femaleRecipients);
+//    printf("\nhospitals\n");
 //    PrintQueue(&hospital);
 
 /* Gives this output (with different pointers):
