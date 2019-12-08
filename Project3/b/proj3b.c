@@ -10,19 +10,22 @@ Jacob Rammer
 typedef struct
 {
     int top;
-    double stack[MAX];
+    double *data;
 
 }Stack;
 
-void initialize(Stack *s)
+Stack *initialize()
 {
+    Stack *s = (Stack*)malloc(sizeof(Stack));
+    s->data = (double*)(malloc(sizeof(double) * 15));
     s->top = 0;
+    return s;
 }
 
 void Push(Stack *s, double x)
 {
     
-        s->stack[s->top] = x;
+        s->data[s->top] = x;
         s->top++;
         // printf("pushing %d\n", x)
 }
@@ -31,7 +34,7 @@ double pop(Stack *s)
 {
     // return s->stack[s->top--];  //This doesnt work???!
     (s->top)--;
-    return s->stack[s->top];
+    return s->data[s->top];
 }
 
 void issueError()

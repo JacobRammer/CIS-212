@@ -34,7 +34,7 @@ typedef struct
     int green;
 }Apple;
 
-char *BananaGetColor(void *fr)
+char *BananaGetColor(Banana *b)
 {
     // printf("banana color\n");
     return "yellow";
@@ -53,31 +53,24 @@ char* FruitGetColor(Fruit *fr)
     return color;
 }
 
-double BananaGetVolume(void *fr)
+double BananaGetVolume(Banana *fr)
 {
-    Banana *f = (Banana *) fr;
-    double volume = (f->height * f->radius * f->radius * 3.14);
+    double volume = (fr->height * fr->radius * fr->radius * 3.14);
     return volume;
 }
 
-char* AppleGetColor(void *ap)
+char* AppleGetColor(Apple *a)
 {
-    Apple *a = (Apple *) ap;
-    if (a->green == 1)  
+    if (a->green == 1)
         return "green";
     return "red";
 }
 
-double AppleGetVolume(void *ap)
+double AppleGetVolume(Apple *a)
 {
-    Apple *a = (Apple *) ap;
     double volume = (4 / 3.0 * a->radius * a->radius * a->radius * 3.14);
     return volume;
 }
-
-
-
-
 
 /* DO NOT MODIFY BELOW THIS POINT */
 /* (ALTHOUGH YOU CAN MODIFY FOR TESTING PURPOSES ... JUST CHANGE IT BACK) */
@@ -89,8 +82,8 @@ Fruit *CreateBanana(double r, double h)
     a->height = h;
     Fruit *f = malloc(sizeof(Fruit));
     f->self = a;
-    f->GetColor = BananaGetColor;
-    f->GetVolume = BananaGetVolume;
+    f->GetColor = (char *(*)(void *)) BananaGetColor;
+    f->GetVolume = (double (*)(void *)) BananaGetVolume;
     return f;
 }
 
@@ -101,8 +94,8 @@ Fruit *CreateApple(double r, int isGreen)
     a->green = isGreen;
     Fruit *f = malloc(sizeof(Fruit));
     f->self = a;
-    f->GetColor = AppleGetColor;
-    f->GetVolume = AppleGetVolume;
+    f->GetColor = (char *(*)(void *)) AppleGetColor;
+    f->GetVolume = (double (*)(void *)) AppleGetVolume;
     return f;
 }
 

@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define QUEUE_SIZE 30 // change back to 10
+#define QUEUE_SIZE 30 // change rear to 10
 
 typedef struct
 {
@@ -52,8 +52,8 @@ void PrintQueue(Queue *q)
 {
     int i;
     printf("Printing queue %p\n", q);
-    printf("\tThe back for the front of the queue is %d\n", q->front);
-    printf("\tThe back for the back of the queue is %d\n", q->back);
+    printf("\tThe rear for the front of the queue is %d\n", q->front);
+    printf("\tThe rear for the rear of the queue is %d\n", q->back);
     if (q->front == q->back)
     {
         printf("\tThe queue is empty.\n");
