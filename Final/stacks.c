@@ -24,7 +24,7 @@ int isFull(Stack *s)
 
 int isEmpty(Stack *s)
 {
-    return s->index = -1;
+    return s->index == -1;
 }
 
 void push(Stack *s, double value)
@@ -40,6 +40,8 @@ void push(Stack *s, double value)
 
 double pop(Stack *s)
 {
+    if(isEmpty(s))
+        return 0;
     return s->data[s->index--];
 }
 
