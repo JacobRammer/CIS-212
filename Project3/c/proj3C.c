@@ -78,7 +78,7 @@ void PrettyPrintQueue(Queue *q, char *type)
 {
     if (q->elements[q->front] == NULL)
     {
-        printf("No unmatched entries for %s\n", type);
+        printf("No unmatched node for %s\n", type);
     }
     else
     {

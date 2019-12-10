@@ -3,17 +3,17 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define TABLE_SIZE 5
+#define HASHTABLESIZE 5
 
 typedef struct entry_t {
     char *key;
     char *value;
-    struct entry_t *next;
-} entry_t;
+    struct Node *next;
+} Node;
 
 typedef struct {
-    entry_t **entries;
-} ht_t;
+    Node **entries;
+} Hashtable;
 
 unsigned int hash(const char *key) {
     unsigned long int value = 0;
@@ -25,15 +25,15 @@ unsigned int hash(const char *key) {
         value = value * 37 + key[i];
     }
 
-    // make sure value is 0 <= value < TABLE_SIZE
-    value = value % TABLE_SIZE;
+    // make sure value is 0 <= value < HASHTABLESIZE
+    value = value % HASHTABLESIZE;
 
     return value;
 }
 
-entry_t *ht_pair(const char *key, const char *value) {
+Node *ht_pair(const char *key, const char *value) {
     // allocate the entry
-    entry_t *entry = malloc(sizeof(entry_t) * 1);
+    Node *entry = malloc(sizeof(Node) * 1);
     entry->key = malloc(strlen(key) + 1);
     entry->value = malloc(strlen(value) + 1);
 
@@ -47,27 +47,27 @@ entry_t *ht_pair(const char *key, const char *value) {
     return entry;
 }
 
-ht_t *ht_create(void) {
+Hashtable *createHashTable(void) {
     // allocate table
-    ht_t *hashtable = malloc(sizeof(ht_t) * 1);
+    Hashtable *hashtable = malloc(sizeof(Hashtable) * 1);
 
-    // allocate table entries
-    hashtable->entries = malloc(sizeof(entry_t*) * TABLE_SIZE);
+    // allocate table node
+    hashtable->entries = malloc(sizeof(Node*) * HASHTABLESIZE);
 
     // set each to null (needed for proper operation)
     int i = 0;
-    for (; i < TABLE_SIZE; ++i) {
+    for (; i < HASHTABLESIZE; ++i) {
         hashtable->entries[i] = NULL;
     }
 
     return hashtable;
 }
 
-void ht_set(ht_t *hashtable, const char *key, const char *value) {
+void ht_set(Hashtable *hashtable, const char *key, const char *value) {
     unsigned int slot = hash(key);
 
     // try to look up an entry set
-    entry_t *entry = hashtable->entries[slot];
+    Node *entry = hashtable->entries[slot];
 
     // no entry means slot empty, insert immediately
     if (entry == NULL) {
@@ -75,7 +75,7 @@ void ht_set(ht_t *hashtable, const char *key, const char *value) {
         return;
     }
 
-    entry_t *prev;
+    Node *prev;
 
     // walk through each entry until either the end is
     // reached or a matching key is found
@@ -98,11 +98,11 @@ void ht_set(ht_t *hashtable, const char *key, const char *value) {
     prev->next = ht_pair(key, value);
 }
 
-char *ht_get(ht_t *hashtable, const char *key) {
+char *ht_get(Hashtable *hashtable, const char *key) {
     unsigned int slot = hash(key);
 
     // try to find a valid slot
-    entry_t *entry = hashtable->entries[slot];
+    Node *entry = hashtable->entries[slot];
 
     // no slot means no entry
     if (entry == NULL) {
@@ -120,22 +120,22 @@ char *ht_get(ht_t *hashtable, const char *key) {
         entry = entry->next;
     }
 
-    // reaching here means there were >= 1 entries but no key match
+    // reaching here means there were >= 1 node but no key match
     return NULL;
 }
 
-void ht_del(ht_t *hashtable, const char *key) {
+void ht_del(Hashtable *hashtable, const char *key) {
     unsigned int bucket = hash(key);
 
     // try to find a valid bucket
-    entry_t *entry = hashtable->entries[bucket];
+    Node *entry = hashtable->entries[bucket];
 
     // no bucket means no entry
     if (entry == NULL) {
         return;
     }
 
-    entry_t *prev;
+    Node *prev;
     int idx = 0;
 
     // walk through each entry until either the end is reached or a matching key is found
@@ -178,9 +178,9 @@ void ht_del(ht_t *hashtable, const char *key) {
     }
 }
 
-void ht_dump(ht_t *hashtable) {
-    for (int i = 0; i < TABLE_SIZE; ++i) {
-        entry_t *entry = hashtable->entries[i];
+void ht_dump(Hashtable *hashtable) {
+    for (int i = 0; i < HASHTABLESIZE; ++i) {
+        Node *entry = hashtable->entries[i];
 
         if (entry == NULL) {
             continue;
@@ -203,7 +203,7 @@ void ht_dump(ht_t *hashtable) {
 }
 
 int main(int argc, char **argv) {
-    ht_t *ht = ht_create();
+    Hashtable *ht = createHashTable();
 
     ht_set(ht, "name1", "em");
     ht_set(ht, "name2", "russian");
