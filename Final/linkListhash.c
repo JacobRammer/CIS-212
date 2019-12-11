@@ -46,26 +46,26 @@ Hashtable *createHashTable(void) {
     Hashtable *hashtable = malloc(sizeof(Hashtable) * 1);
 
     // allocate table node
-    hashtable->node = malloc(sizeof(Node*) * HASHTABLESIZE);
+    hashtable->entries = malloc(sizeof(Node*) * HASHTABLESIZE);
 
     // set each to null (needed for proper operation)
     int i = 0;
     for (; i < HASHTABLESIZE; ++i) {
-        hashtable->node[i] = NULL;
+        hashtable->entries[i] = NULL;
     }
 
     return hashtable;
 }
 
-void ht_set(Hashtable *hashtable, const char *key, const char *value) {
-    unsigned int slot = hash(key);
+void ht_set(Hashtable *hashtable, char *key, char *value) {
+    unsigned int slot = mySmyhash(key);
 
     // try to look up an entry set
-    Node *entry = hashtable->node[slot];
+    Node *entry = hashtable->entries[slot];
 
     // no entry means slot empty, insert immediately
     if (entry == NULL) {
-        hashtable->node[slot] = pairValues(key, value);
+        hashtable->entries[slot] = pairValues(key, value);
         return;
     }
 
@@ -92,11 +92,11 @@ void ht_set(Hashtable *hashtable, const char *key, const char *value) {
     prev->next = pairValues(key, value);
 }
 
-char *ht_get(Hashtable *hashtable, const char *key) {
-    unsigned int slot = hash(key);
+char *ht_get(Hashtable *hashtable, char *key) {
+    unsigned int slot = myhash(key);
 
     // try to find a valid slot
-    Node *entry = hashtable->node[slot];
+    Node *entry = hashtable->entries[slot];
 
     // no slot means no entry
     if (entry == NULL) {
@@ -121,7 +121,7 @@ char *ht_get(Hashtable *hashtable, const char *key) {
 
 void ht_dump(Hashtable *hashtable) {
     for (int i = 0; i < HASHTABLESIZE; ++i) {
-        Node *entry = hashtable->node[i];
+        Node *entry = hashtable->entries[i];
 
         if (entry == NULL) {
             continue;
@@ -147,12 +147,12 @@ int main(int argc, char **argv) {
     Hashtable *ht = createHashTable();
 
     ht_set(ht, "name1", "em");
-    ht_set(ht, "name2", "russian");
-    ht_set(ht, "name3", "pizza");
-    ht_set(ht, "name4", "doge");
-    ht_set(ht, "name5", "pyro");
-    ht_set(ht, "name6", "joost");
-    ht_set(ht, "name7", "kalix");
+//    ht_set(ht, "name2", "russian");
+//    ht_set(ht, "name3", "pizza");
+//    ht_set(ht, "name4", "doge");
+//    ht_set(ht, "name5", "pyro");
+//    ht_set(ht, "name6", "joost");
+//    ht_set(ht, "name7", "kalix");
 
     ht_dump(ht);
 
