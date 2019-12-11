@@ -358,8 +358,10 @@ int main(int argc, char *argv[])
     MapBasedOnHashTable mfht;
     printf("num companies is %d\n", numCompanies);
     InitializeMapBasedOnHashTable(&mfht, numCompanies*2);
-    clock_t t;
-    t = clock();
+//    clock_t t;
+//    t = clock();
+    struct timeval proj3d;
+    gettimeofday(&proj3d, 0);
     for (int i = 0 ; i < numCompanies ; i++)
     {
         StoreTo_MapBasedOnHashTable(&mfht, companies+i);
@@ -380,13 +382,20 @@ int main(int argc, char *argv[])
     for(int i = 0; i <numCompanies; i++)
         FetchFrom_MapBasedOnHashTable(&mfht, companies[i].symbol);
 
-    t = clock() - t;
-    double timeTaken = ((double) t) / CLOCKS_PER_SEC;
+    struct timeval endTime;
+    gettimeofday(&endTime, 0);
+    double proj3dSec = (double)(endTime.tv_sec - proj3d.tv_sec) + (double)(endTime.tv_usec - proj3d.tv_usec) / 1000000;
+    printf("3d time: %f\n", proj3dSec);
+//    t = clock() - t;
+//    double timeTaken = ((double) t) / CLOCKS_PER_SEC;
 //    printf("another test %f\n", timeTaken);
     Hashtable *ht = createHashTable();
 
-    clock_t myCLock;
-    myCLock = clock();
+    struct timeval myTime;
+    gettimeofday(&myTime, 0);
+
+//    clock_t myCLock;
+//    myCLock = clock();
 
     for (int i = 0 ; i < numCompanies ; i++)
     {
@@ -396,12 +405,19 @@ int main(int argc, char *argv[])
 //    printMyHashTable(ht);
     for (int i = 0 ; i < numCompanies ; i++)
         getFromMyHash(ht, &companies[i]);
+
+    struct timeval myEnd;
+    gettimeofday(&myEnd, 0);
+
+    double seconds = (double)(myEnd.tv_sec - myTime.tv_sec) + (double)(myEnd.tv_usec - myTime.tv_usec) / 1000000;
+    printf("My time: %f\n", seconds);
+
 //    Company *p = getFromMyHash(ht, &companies[0]);
 //    printf("test %s\n", p->name);
 //    printMyHashTable(ht);
-    myCLock = clock() - myCLock;
-    double myTime = ((double) myCLock) / CLOCKS_PER_SEC;
-    printf("my time %f, 3d starter: %f\n", myTime, timeTaken);
+//    myCLock = clock() - myCLock;
+//    double myTime = ((double) myCLock) / CLOCKS_PER_SEC;
+//    printf("my time %f, 3d starter: %f\n", myTime, timeTaken);
 //    printMyHashTable(ht);
 //    FetchAndPrint(&mfht, "ZNWAA");
 //    FetchAndPrint(&mfht, "Z");
@@ -418,10 +434,13 @@ int main(int argc, char *argv[])
 
 //    struct timeval startTime;
 //    gettimeofday(&startTime, 0);
+//    int j = 0;
+//    for(int i = 0; i < 100000; i++)
+//        j++;
 //    struct timeval endTime;
 //    gettimeofday(&endTime, 0);
-//    double seconds = double(endTime.tv_sec = startTime.tv_sec) + double(endTime.tv_usec - startTime.tv_usec) / 1000000;
-//    printf("sdf %f", seconds);
+//    double seconds = (double)(endTime.tv_sec - startTime.tv_sec) + (double)(endTime.tv_usec - startTime.tv_usec) / 1000000;
+//    printf("sdf %f", proj3dSec);
 
 
 //    printMyHashTable(ht);
