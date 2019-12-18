@@ -20,7 +20,7 @@ int readRow(int index, int *buff, FILE *txtFile)
 
 int main(int argc, char *argv[])
 {
-    int *buff = malloc(sizeof(int) * 48);  // don't need to read the whole thing
+    int *buff = malloc(sizeof(int) * 48);
    int index = 0;
    if (argc < 3)
     {
