@@ -7,19 +7,19 @@
 
 typedef struct
 {
-    int back;
-    int front;
-    int priority;
-    char* elements[QUEUE_SIZE];
+    int front, rear, size, capacity;
+    char* elements;
 } Queue;
 
-void InitializeQueue(Queue *q)
+Queue* InitializeQueue()
 {
-    for(int i = 0; i < QUEUE_SIZE; i++)
-        q->elements[i] = NULL;
+    Queue* q = (Queue*)(malloc(sizeof(Queue)));
+    q->capacity = QUEUE_SIZE;
     q->front = 0;
-    q->back = 0;
-    q->priority = 0;
+    q->size = 0;
+    q->rear = QUEUE_SIZE - 1;
+    q->elements = (char*)(malloc(sizeof(char) * 30));
+    return q;
 
 }
 
@@ -30,9 +30,9 @@ void Enqueue(Queue *q, char* val)
         printf("Enqueue failed\n");
         exit(EXIT_FAILURE);
     }
-    q->elements[q->back] = val;
+    q->elements[q->back % QUEUE_SIZE] = val;
     q->back++;
-    q->priority++;
+//    q->priority++;
 }
 
 char* Dequeue(Queue *q)
@@ -42,9 +42,9 @@ char* Dequeue(Queue *q)
         printf("At beginning of queue\n");
         return 0;
     }
-    char* beforeDequeue = q->elements[q->front];
+    char* beforeDequeue = q->elements[q->back % QUEUE_SIZE];
     q->front++;
-    q->priority = 0;
+//    q->priority = 0;
     return beforeDequeue;
 }
 
