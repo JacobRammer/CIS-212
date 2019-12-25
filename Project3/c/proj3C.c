@@ -23,29 +23,39 @@ Queue* InitializeQueue()
 
 }
 
-void Enqueue(Queue *q, char* val)
+int isFull(Queue* q)
 {
-    if (q->back + 1 >= QUEUE_SIZE)
+    return q->size == 0;
+}
+
+int isEmpty(Queue* q)
+{
+    return q->size == q->capacity;
+}
+
+void Enqueue(Queue *q, const char* val)
+{
+    if(isFull(q))
     {
-        printf("Enqueue failed\n");
-        exit(EXIT_FAILURE);
+        printf("Queue is empty, nothing was queued");
+        return;
     }
-    q->elements[q->back % QUEUE_SIZE] = val;
-    q->back++;
-//    q->priority++;
+    q->rear = (q->rear + 1) % q->capacity;
+    q->elements[q->rear] = *val;
+    q->size++;
 }
 
 char* Dequeue(Queue *q)
 {
-    if (q->front < 0)
+    if (isEmpty(q))
     {
-        printf("At beginning of queue\n");
+        printf("Queue is empty");
         return 0;
     }
-    char* beforeDequeue = q->elements[q->back % QUEUE_SIZE];
-    q->front++;
-//    q->priority = 0;
-    return beforeDequeue;
+    char* item = (char *) q->elements[q->rear];
+    q->front = (q->front + 1) % q->capacity;
+    q->size--;
+    return item;
 }
 
 void PrintQueue(Queue *q)
